@@ -1,14 +1,12 @@
-# Compute-Intensive Benchmarking Suite (Python)
+# Compute-Intensive Benchmarking Suite in Python
 
-A modular, extensible benchmarking suite for comparing compute-heavy algorithms using Python `multiprocessing` including:
+This project benchmarks different multiprocessing strategies in Python — including `pool.map`, `pool.apply`, 
+`pool.apply_async`, and a single-process loop — using CPU-heavy algorithms such as prime checking. It provides a 
+command-line interface for running tests with configurable algorithms, process counts, and input sizes, and includes 
+progress bars and CSV output for deeper analysis.
 
-+ `apply()`
-+ `apply_async()`
-+ `map()`
-+ Single-process execution (i.e. a `for`-loop)
-
-This project allows you to benchmark any algorithm simply by registering it in the ALGORITHMS dictionary.
-Currently implemented: a prime-checking function.
+The goal of the project is to explore how Python distributes compute-intensive workloads across multiple processes, 
+how chunk sizes influence performance, and why certain strategies outperform others at scale.
 
 ## Features
 
@@ -22,7 +20,7 @@ Currently implemented: a prime-checking function.
 
 ### Run a benchmark
 
-`python main.py -algorithm primeChecker -benchmark poolMap -upperLimit 2000000 -numProcesses 4`
+`python src/main.py -algorithm primeChecker -benchmark poolMap -upperLimit 2000000 -numProcesses 4`
 
 ### Example Output
 
@@ -43,6 +41,7 @@ src/
   main.py               → CLI & orchestration
   benchmarks.py         → Multiprocessing strategies
   test_algorithms.py    → Computation functions (pluggable)
+  results.csv           → permanent storage of the results
 README.md
 ```
 
@@ -56,6 +55,7 @@ def fibonacci(n):
 ```
 Then register it:
 ```
+# In main.py
 ALGORITHMS = {
     "primeChecker": check_if_prime,
     "fibonacci": fibonacci,
@@ -66,12 +66,12 @@ That's all — no other code changes required.
 ## Why `apply()` is slow
 `apply()` is synchronous and blocking. 
 It behaves like a normal function call and does not run tasks in parallel.
-
 This makes `apply()` significantly slower than a normal loop, because each call includes inter-process overhead.
+
 Included for educational comparison.
 
 ## `tqdm()` overhead
-This adds a bit of overhead per iteration (~60ns / iteration). Worth it for the better experience.
+`tqdm()` adds a bit of overhead per iteration (~60ns / iteration). Worth it for the better experience.
 
 ## `apply_async()` and chunking
 The default chunk size for `apply_async()` is effectively 1 because it is one task per submission.
