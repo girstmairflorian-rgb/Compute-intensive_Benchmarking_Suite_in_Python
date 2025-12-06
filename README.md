@@ -1,11 +1,11 @@
 # Compute-Intensive Benchmarking Suite (Python)
 
-A modular, extensible benchmarking suite for comparing compute-heavy algorithms using Python Multiprocessing including:
+A modular, extensible benchmarking suite for comparing compute-heavy algorithms using Python `multiprocessing` including:
 
-+ Pool.apply
-+ Pool.apply_async
-+ Pool.map
-+ Single-process execution
++ `apply()`
++ `apply_async()`
++ `map()`
++ Single-process execution (i.e. a `for`-loop)
 
 This project allows you to benchmark any algorithm simply by registering it in the ALGORITHMS dictionary.
 Currently implemented: a prime-checking function.
@@ -30,12 +30,12 @@ Currently implemented: a prime-checking function.
 
 ## Command-line Arguments
 
-| Argument         | Description                                                                  |
-|------------------|------------------------------------------------------------------------------|
-| `-algorithm`     | Algorithm to benchmark (e.g., primeChecker)                                  |
+| Argument         | Description                                                                                        |
+|------------------|----------------------------------------------------------------------------------------------------|
+| `-algorithm`     | Algorithm to benchmark (e.g., primeChecker)                                                        |
 | `-benchmark`     | Benchmarking method (poolApply, poolApplyAsync, poolApplyAsyncChunked, poolMap, singleProcessLoop) |
-| `-upperLimit`    | Range end for the benchmark (1…N)                                            |
-| `-numProcesses`  | Number of worker processes                                                   |
+| `-upperLimit`    | Range end for the benchmark (1…N)                                                                  |
+| `-numProcesses`  | Number of worker processes                                                                         |
 
 ## Architecture
 ```
@@ -63,29 +63,21 @@ ALGORITHMS = {
 ```
 That's all — no other code changes required.
 
-## Why `pool.apply()` is slow
-`pool.apply()` is synchronous and blocking. 
+## Why `apply()` is slow
+`apply()` is synchronous and blocking. 
 It behaves like a normal function call and does not run tasks in parallel.
 
-Execution model:
-
-+ Submit task 1
-+ Wait for task 1
-+ Submit task 2
-+ Wait for task 2
-+ …
-
-This makes .apply() significantly slower than a normal loop, because each call includes inter-process overhead.
+This makes `apply()` significantly slower than a normal loop, because each call includes inter-process overhead.
 Included for educational comparison.
 
-## tqdm() overhead
-This adds a bit of overhead per iteration (~60ns / iteration). Worth it for the better UX.
+## `tqdm()` overhead
+This adds a bit of overhead per iteration (~60ns / iteration). Worth it for the better experience.
 
-## pool.apply_async() and chunking
+## `apply_async()` and chunking
 The default chunk size for `apply_async()` is effectively 1 because it is one task per submission.
 
 To get around this, a manually set chunk size makes the algorithm way faster. The program automatically adjusts to the
-upperLimit of the range and chooses between `apply_async()` and `apply_async_chunked()`.
+upperLimit of the range and chooses between `apply_async()` and `apply_async_chunked()` accordingly.
 
 ## License
 
