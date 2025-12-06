@@ -11,6 +11,7 @@ ALGORITHMS = {
 BENCHMARKS = {
     "poolApply": benchmarks.pool_apply,
     "poolApplyAsync": benchmarks.pool_apply_async,
+    "poolApplyAsyncChunked": benchmarks.pool_apply_async_chunked,
     "poolMap": benchmarks.pool_map,
     "singleProcessLoop": benchmarks.single_process_loop,
 }
@@ -56,6 +57,12 @@ if __name__ == "__main__":
 
     for arg in unknown:
         print(f'"{arg}" is not a valid parameter. It will be skipped.')
+
+    # Auto-detect upperLimit to choose between poolApplyAsyncChunked and poolApplyAsync
+    if args.benchmark == "poolApplyAsync" and args.upperLimit > 200_000:
+        args.benchmark = "poolApplyAsyncChunked"
+        benchmark_func = benchmarks.pool_apply_async_chunked
+        print("Auto-selected chunked async version for large input.")
 
     start = perf_counter()
     result = benchmark_func(numbers, algorithm, args.numProcesses)

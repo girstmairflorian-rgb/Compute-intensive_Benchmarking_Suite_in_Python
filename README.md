@@ -30,12 +30,12 @@ Currently implemented: a prime-checking function.
 
 ## Command-line Arguments
 
-| Argument         | Description                                                                                        |
-|------------------|----------------------------------------------------------------------------------------------------|
-| `-algorithm`     | Algorithm to benchmark (e.g., primeChecker)                                                        |
-| `-benchmark`     | Benchmarking method (poolApply, poolApplyAsync, poolMap, singleProcessLoop) |
-| `-upperLimit`    | Range end for the benchmark (1…N)                                                                  |
-| `-numProcesses`  | Number of worker processes                                                                         |
+| Argument         | Description                                                                  |
+|------------------|------------------------------------------------------------------------------|
+| `-algorithm`     | Algorithm to benchmark (e.g., primeChecker)                                  |
+| `-benchmark`     | Benchmarking method (poolApply, poolApplyAsync, poolApplyAsyncChunked, poolMap, singleProcessLoop) |
+| `-upperLimit`    | Range end for the benchmark (1…N)                                            |
+| `-numProcesses`  | Number of worker processes                                                   |
 
 ## Architecture
 ```
@@ -80,6 +80,12 @@ Included for educational comparison.
 
 ## tqdm() overhead
 This adds a bit of overhead per iteration (~60ns / iteration). Worth it for the better UX.
+
+## pool.apply_async() and chunking
+The default chunk size for `apply_async()` is effectively 1 because it is one task per submission.
+
+To get around this, a manually set chunk size makes the algorithm way faster. The program automatically adjusts to the
+upperLimit of the range and chooses between `apply_async()` and `apply_async_chunked()`.
 
 ## License
 
