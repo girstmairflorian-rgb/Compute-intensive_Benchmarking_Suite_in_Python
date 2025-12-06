@@ -78,6 +78,9 @@ Execution model:
 This makes .apply() significantly slower than a normal loop, because each call includes inter-process overhead.
 Included for educational comparison.
 
+## tqdm() overhead
+This adds a bit of overhead per iteration (~60ns / iteration). Worth it for the better UX.
+
 ## License
 
 MIT
