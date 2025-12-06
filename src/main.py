@@ -72,6 +72,6 @@ if __name__ == "__main__":
 
     print(f"{args.algorithm} took {elapsedTime}s for {args.upperLimit} numbers using {args.benchmark}")
 
-    with open("results.csv", "a", encoding="utf-8") as printFile:
+    with open("results/results.csv", "a", encoding="utf-8") as printFile:
         file_writer = csv.writer(printFile, delimiter=",", lineterminator="\n")
         file_writer.writerow([args.algorithm, args.benchmark, str(args.upperLimit), str(elapsedTime)])

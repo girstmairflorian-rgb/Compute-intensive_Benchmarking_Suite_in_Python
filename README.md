@@ -24,7 +24,7 @@ how chunk sizes influence performance, and why certain strategies outperform oth
 
 ### Example Output
 
-`primeChecker took 57.4905s for 2000000 numbers using poolMap`
+`primeChecker took 1.90045s for 2000000 numbers using poolMap`
 
 ## Command-line Arguments
 
