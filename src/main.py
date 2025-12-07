@@ -78,8 +78,8 @@ if __name__ == "__main__":
 
     elapsedTime = round((end - start), 5)
 
-    print(f"{args.algorithm} took {elapsedTime}s for {args.upperLimit} numbers using {args.benchmark}")
+    print(f"Calculating {args.algorithm} using {args.benchmark} with {args.numProcesses} processes for {args.upperLimit} numbers took {elapsedTime}s")
 
     with RESULTS_FILE.open("a", encoding="utf-8") as printFile:
         file_writer = csv.writer(printFile, delimiter=",", lineterminator="\n")
-        file_writer.writerow([args.algorithm, args.benchmark, str(args.upperLimit), str(elapsedTime)])
+        file_writer.writerow([args.algorithm, args.benchmark, args.numProcesses, str(args.upperLimit), str(elapsedTime)])
