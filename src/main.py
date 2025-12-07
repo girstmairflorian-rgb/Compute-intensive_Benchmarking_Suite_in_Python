@@ -1,8 +1,15 @@
 from time import perf_counter
 import csv
 import argparse
+from pathlib import Path
 import test_algorithms
 import benchmarks
+
+# Setup clean directory structure for the output to results.csv
+ROOT = Path(__file__).resolve().parent.parent
+RESULTS_DIR = ROOT / "results"
+RESULTS_DIR.mkdir(exist_ok=True)
+RESULTS_FILE = RESULTS_DIR / "results.csv"
 
 ALGORITHMS = {
     "primeChecker": test_algorithms.check_if_prime,
@@ -72,6 +79,6 @@ if __name__ == "__main__":
 
     print(f"{args.algorithm} took {elapsedTime}s for {args.upperLimit} numbers using {args.benchmark}")
 
-    with open("results/results.csv", "a", encoding="utf-8") as printFile:
+    with RESULTS_FILE.open("a", encoding="utf-8") as printFile:
         file_writer = csv.writer(printFile, delimiter=",", lineterminator="\n")
         file_writer.writerow([args.algorithm, args.benchmark, str(args.upperLimit), str(elapsedTime)])
