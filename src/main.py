@@ -13,6 +13,7 @@ RESULTS_FILE = RESULTS_DIR / "results.csv"
 
 ALGORITHMS = {
     "primeChecker": test_algorithms.check_if_prime,
+    "fibonacci": test_algorithms.fibonacci,
 }
 
 BENCHMARKS = {
