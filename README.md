@@ -18,6 +18,10 @@ how chunk sizes influence performance, and why certain strategies outperform oth
 
 ## Usage
 
+### Install requirements
+
+`pip install -r requirements.txt`
+
 ### Run a benchmark
 
 `python src/main.py -algorithm primeChecker -benchmark poolMap -upperLimit 2000000 -numProcesses 4`
@@ -30,18 +34,20 @@ how chunk sizes influence performance, and why certain strategies outperform oth
 
 | Argument         | Description                                                                                        |
 |------------------|----------------------------------------------------------------------------------------------------|
-| `-algorithm`     | Algorithm to benchmark (e.g., primeChecker)                                                        |
+| `-algorithm`     | Algorithm to benchmark (e.g., primeChecker, fibonacci)                                             |
 | `-benchmark`     | Benchmarking method (poolApply, poolApplyAsync, poolApplyAsyncChunked, poolMap, singleProcessLoop) |
 | `-upperLimit`    | Range end for the benchmark (1…N)                                                                  |
 | `-numProcesses`  | Number of worker processes                                                                         |
 
-## Architecture
+## Project Structure
 ```
-src/
-  main.py               → CLI & orchestration
-  benchmarks.py         → Multiprocessing strategies
-  test_algorithms.py    → Computation functions (pluggable)
+results/
   results.csv           → permanent storage of the results
+src/
+  benchmarks.py         → Multiprocessing strategies
+  main.py               → CLI & orchestration
+  test_algorithms.py    → Computation functions (pluggable)
+LICENSE
 README.md
 ```
 
