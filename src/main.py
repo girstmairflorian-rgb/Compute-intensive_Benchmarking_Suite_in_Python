@@ -3,7 +3,7 @@ import csv
 import argparse
 from pathlib import Path
 import test_algorithms
-import benchmarks
+import multiprocessing_functions
 
 # Setup clean directory structure for the output to results.csv
 ROOT = Path(__file__).resolve().parent.parent
@@ -16,12 +16,12 @@ ALGORITHMS = {
     "fibonacci": test_algorithms.fibonacci,
 }
 
-BENCHMARKS = {
-    "poolApply": benchmarks.pool_apply,
-    "poolApplyAsync": benchmarks.pool_apply_async,
-    "poolApplyAsyncChunked": benchmarks.pool_apply_async_chunked,
-    "poolMap": benchmarks.pool_map,
-    "singleProcessLoop": benchmarks.single_process_loop,
+MP_FUNCTIONS = {
+    "poolApply": multiprocessing_functions.pool_apply,
+    "poolApplyAsync": multiprocessing_functions.pool_apply_async,
+    "poolApplyAsyncChunked": multiprocessing_functions.pool_apply_async_chunked,
+    "poolMap": multiprocessing_functions.pool_map,
+    "singleProcessLoop": multiprocessing_functions.single_process_loop,
 }
 
 def parse_args():
@@ -35,7 +35,7 @@ def parse_args():
 
     parser.add_argument(
         "-benchmark",
-        choices=list(BENCHMARKS.keys()),
+        choices=list(MP_FUNCTIONS.keys()),
         required=True,
         help="Benchmarking method to use"
     )
@@ -58,7 +58,7 @@ def parse_args():
 if __name__ == "__main__":
     args, unknown = parse_args()
     algorithm = ALGORITHMS[args.algorithm]
-    benchmark_func = BENCHMARKS[args.benchmark]
+    benchmark_func = MP_FUNCTIONS[args.benchmark]
 
     numbers: list[int] = list(range(1, args.upperLimit + 1))
     num_processes = args.numProcesses
@@ -69,7 +69,7 @@ if __name__ == "__main__":
     # Auto-detect upperLimit to choose between poolApplyAsyncChunked and poolApplyAsync
     if args.benchmark == "poolApplyAsync" and args.upperLimit > 200_000:
         args.benchmark = "poolApplyAsyncChunked"
-        benchmark_func = benchmarks.pool_apply_async_chunked
+        benchmark_func = multiprocessing_functions.pool_apply_async_chunked
         print("Auto-selected chunked async version for large input.")
 
     start = perf_counter()
