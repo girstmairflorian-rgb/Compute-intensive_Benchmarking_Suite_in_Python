@@ -16,6 +16,21 @@ how chunk sizes influence performance, and why certain strategies outperform oth
 + Consistent, comparable benchmark output
 + Easy to extend with new algorithms or benchmarking backends
 
+## Web Interface Available
+
+This benchmarking engine can also be used through a web interface built with Flask:
+
+### Benchmark App (Flask UI + DB Logging)
+https://github.com/girstmairflorian-rgb/Benchmark_App
+
+The web app wraps this library in:
+
++ an HTML front-end for setting benchmark parameters
+
++ a Flask backend that runs benchmarks on demand
+
++ a database that logs all benchmark results
+
 ## Usage
 
 ### Install requirements
